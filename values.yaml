@@ -1,0 +1,28 @@
+image:
+  repository: mozillasecurity/mozdef
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: LoadBalancer
+  port: 80
+
+mongodb:
+  enabled: true
+  uri: mongodb://<mongodb-url>:27017/mozdef
+
+elasticsearch:
+  enabled: true
+  uri: http://<elasticsearch-url>:9200
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi
+
+ingress:
+  enabled: false
+  host: mozdef.example.com

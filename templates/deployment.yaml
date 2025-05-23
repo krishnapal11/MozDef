@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mozdef.fullname" . }}
+  labels:
+    app: {{ include "mozdef.name" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "mozdef.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "mozdef.name" . }}
+    spec:
+      containers:
+        - name: mozdef
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 80
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: MONGO_URI
+              value: "{{ .Values.mongodb.uri }}"
+            - name: ES_URI
+              value: "{{ .Values.elasticsearch.uri }}"
