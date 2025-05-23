@@ -14,6 +14,10 @@ spec:
       labels:
         app: {{ include "mozdef.name" . }}
     spec:
+      tolerations:
+        - effect: NoSchedule
+          key: kubeguard
+          operator: Exists
       containers:
         - name: mozdef
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
